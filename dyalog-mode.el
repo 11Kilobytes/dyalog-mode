@@ -2652,7 +2652,7 @@ PROCESS is the socket receiving data and OUTPUT is the data received."
       (dyalog-ride-open-edit-window args process))))
 
 (defun dyalog-ride-open-edit-window (args process)
-  (let ((buf (pop-to-buffer (cdr (assoc 'name args))))
+  (let ((buf (get-buffer-create (cdr (assoc 'name args))))
         (text (cdr (assoc 'text args)))
         (lineno (cdr (assoc 'offset args)))
         (window-id (cdr (assoc 'token args))))
@@ -2676,7 +2676,8 @@ PROCESS is the socket receiving data and OUTPUT is the data received."
             (forward-line (- lineno 1))
           (goto-char (min pos (point-max))))
         (setq buffer-undo-list nil)
-        (set-buffer-modified-p nil)))))
+        (set-buffer-modified-p nil)
+        (display-buffer buf)))))
 
 (defun dyalog-ride-open-debugger (args process &optional bufname)
   (let ((buf (or bufname (get-buffer-create (cdr (assoc 'name args)))))
